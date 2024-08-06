@@ -1,0 +1,293 @@
+@counter-style smileys {
+  system: cyclic;
+  symbols: "😔" "😞" "🙁" "😕" "🙂" "😀" "😄" "😁" "😊"
+  ;
+  suffix: ""
+}
+/* 
+  "😞" "😔" "😒" "😏" "😌" "🙂" "😀" "😃" "😆" "😄" "😃" "🙃" "🥰" "😇"  */
+:root {
+  --mid: #444;
+  --gap: 8px;
+  --size: 20px;
+  --middle: calc(((100% - var(--size)) / 2) - var(--gap));
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--size);
+  background-color: #222;
+
+  counter-set: mood 1;
+}
+
+
+main {
+  position: relative;
+  width: 300px;
+  height: 150px;
+  border: 1px solid #fff;
+  border-radius: var(--gap);
+  box-sizing: border-box;
+}
+
+
+/* BUTTONS / BUTTONS / BUTTONS / BUTTONS / BUTTONS / BUTTONS */
+
+
+.button {
+  border: 1px outset var(--mid);
+  border-radius: var(--gap);
+  width: var(--size);
+  height: var(--size);
+  padding: var(--gap);
+}
+
+button:hover,
+.button:hover {
+  color: #fff;
+}
+
+button:hover:active,
+.button:hover:active {
+  border-style: inset;
+  background-color: #000;
+}
+
+
+/* MOOD / MOOD / MOOD / MOOD / MOOD / MOOD / MOOD / MOOD */
+
+
+div {
+  position: relative;
+  top: -15px;
+  --size: 145px;
+  font-size: var(--size);
+  height: var(--size);
+  text-align: center;
+  pointer-events: none;
+}
+div::after {
+  content: counter(mood, smileys);
+}
+
+input {
+  position: absolute;
+  left: -999vw;
+}
+
+label { 
+  position: absolute;
+  bottom: 0;
+  background-color: var(--mid);
+}
+
+[for=sun0],
+[for=rain0] {
+  background-color: green!important;
+}
+
+/* label:nth-last-of-type(2), */
+label:last-of-type { 
+  right: 0;
+}
+
+#rain:checked {
+  animation-name: rain;
+  animation-duration: 3s;
+  animation-timing-function: steps(10);
+  animation-fill-mode: forwards;
+}
+/* #rain:checked ~ #rain0
+#rain:checked ~ #sun 
+#rain:checked ~ #sun0 {
+  animation-play-state: paused;
+} */
+
+#rain0:checked {
+  animation-name: rain0;
+  animation-duration: 2s;
+  animation-timing-function: steps(5);
+  animation-fill-mode: forwards;
+}
+
+#sun0:checked {
+  animation-name: sun0;
+  animation-duration: 2s;
+  animation-timing-function: steps(5);
+  animation-fill-mode: forwards;
+}
+
+#rain:checked {
+  animation-name: rain;
+  animation-duration: 3s;
+  animation-timing-function: steps(10);
+  animation-fill-mode: forwards;
+}
+
+#sun:checked {
+  animation-name: sun;
+  animation-duration: 3s;
+  animation-timing-function: steps(10);
+  animation-fill-mode: forwards;
+}
+
+/* If sun0 is checked first, hide both its own label and the
+ * label for the rain0 checkbox, which won't be used now...
+ */
+#sun0:checked + label,
+main:has(#sun0:checked) [for=rain0] {
+  display: none;
+}
+/* ... and also "check" the label for the #sun radio button... */
+main:has(#sun0:checked) [for=sun] {
+  background-color: #000;
+}
+/* ...unless the #rain radio button is checked */
+main #rain:checked ~ [for=sun] {
+  background-color: var(--mid);
+}
+
+/* If rain0 is checked first, hide both its own label and the
+ * label for the sun0 checkbox, which won't be used now...
+ */
+#rain0:checked ~ [for=sun0],
+#rain0:checked + label {
+  display: none;
+}
+/* ... and also "check" the label for the #rain radio button... */
+main:has(#rain0:checked) [for=rain] {
+  background-color: #000;
+}
+/* ...unless the #sun radio button is checked */
+main:has(#sun:checked) [for=rain] {
+  background-color: var(--mid);
+}
+
+input:checked + label {
+  background-color: #000;
+}
+
+@keyframes sun {
+  0% {
+    counter-set: mood 1
+  }
+  10% {
+    counter-set: mood 2
+  }
+  20% {
+    counter-set: mood 3
+  }
+  30% {
+    counter-set: mood 4
+  }
+  40% {
+    counter-set: mood 5
+  }
+  50% {
+    counter-set: mood 6
+  }
+  60% {
+    counter-set: mood 7
+  }
+  70% {
+    counter-set: mood 8
+  }
+  80% {
+    counter-set: mood 9
+  }
+  90% {
+    counter-set: mood 9
+  }
+  100% {
+    counter-set: mood 9
+  }
+}
+
+@keyframes sun0 {
+  0% {
+    counter-set: mood 5
+  }
+  20% {
+    counter-set: mood 6
+  }
+  40% {
+    counter-set: mood 7
+  }
+  60% {
+    counter-set: mood 8
+  }
+  80% {
+    counter-set: mood 9
+  }
+  100% {
+    counter-set: mood 9
+  }
+}
+
+@keyframes rain {
+  0% {
+    counter-set: mood 9
+  }
+  10% {
+    counter-set: mood 9
+  }
+  20% {
+    counter-set: mood 8
+  }
+  30% {
+    counter-set: mood 7
+  }
+  40% {
+    counter-set: mood 6
+  }
+  50% {
+    counter-set: mood 5
+  }
+  60% {
+    counter-set: mood 4
+  }
+  70% {
+    counter-set: mood 3
+  }
+  80% {
+    counter-set: mood 2
+  }
+  90% {
+    counter-set: mood 1
+  }
+  100% {
+    counter-set: mood 1
+  }
+}
+
+@keyframes rain0 {
+  0% {
+    counter-set: mood 5
+  }
+  20% {
+    counter-set: mood 4
+  }
+  40% {
+    counter-set: mood 3
+  }
+  60% {
+    counter-set: mood 2
+  }
+  80% {
+    counter-set: mood 1
+  }
+  100% {
+    counter-set: mood 1
+  }
+}
+
+pre::after {
+  content: counter(mood);
+  color: white;
+}
